@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class LoginResponse (
-    @SerializedName("userAccount")
-    val userAccountData: UserAccountData,
-    @SerializedName("error")
-    val error: ApiError
-) : Parcelable
+class ApiError (
+    @SerializedName("code")
+    var code: Int,
+    @SerializedName("message")
+    var message: String
+): Parcelable

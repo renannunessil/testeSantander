@@ -11,6 +11,7 @@ class LoginViewModel(repository: LoginRepository) : ViewModel() {
 
     private val loginRepository = repository
     private lateinit var loginResponse: MutableLiveData<LoginResponse>
+    private lateinit var loginFailure: MutableLiveData<String>
 
     fun getLoginResponseObservable(): LiveData<LoginResponse> {
         if (!::loginResponse.isInitialized) {
@@ -18,6 +19,14 @@ class LoginViewModel(repository: LoginRepository) : ViewModel() {
         }
 
         return loginResponse
+    }
+
+    fun getLoginFailureObservable(): LiveData<String> {
+        if (!::loginFailure.isInitialized) {
+            loginFailure = loginRepository.getLoginErrorObservable()
+        }
+
+        return loginFailure
     }
 
     fun login(request: LoginRequest) {

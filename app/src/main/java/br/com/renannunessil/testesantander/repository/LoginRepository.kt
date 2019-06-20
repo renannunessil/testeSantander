@@ -13,6 +13,7 @@ import retrofit2.Response
 class LoginRepository {
     private val service: CallApi = RetrofitClientInstance.create()
     private lateinit var loginResponseLiveData: MutableLiveData<LoginResponse>
+    private lateinit var loginErrorLiveData: MutableLiveData<String>
 
     fun login(request: LoginRequest) {
         service.callLogin(request.user, request.password).enqueue(object : Callback<LoginResponse> {
@@ -22,7 +23,11 @@ class LoginRepository {
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) {
-                    loginResponseLiveData.value = response.body()
+                    if (!response.body()!!.error.message.isNullOrBlank()) {
+                        loginErrorLiveData.value = response.body()!!.error.message
+                    } else {
+                        loginResponseLiveData.value = response.body()
+                    }
                 }
             }
         })
@@ -34,6 +39,14 @@ class LoginRepository {
         }
 
         return loginResponseLiveData
+    }
+
+    fun getLoginErrorObservable(): MutableLiveData<String> {
+        if (!::loginErrorLiveData.isInitialized) {
+            loginErrorLiveData = MutableLiveData()
+        }
+
+        return loginErrorLiveData
     }
 
     object LoginRepositoryProvider {
