@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorPrimary">#3B49EE</color>
+    <color name="colorPrimaryDark">#0D1597</color>
+
+    <color name="loginFontColor">#FFFFFF</color>
+    <color name="loginDefaultComponentsColor">#C1CAD5</color>
+
+    <color name="accountInfoFontColor">#FFFFFF</color>
+    <color name="homeLabelsFontColor">#485465</color>
+
+    <color name="launchLabelFontColor">#A8B4C4</color>
+
+    <color name="progressBarBackground">#7f000000</color>
+</resources>
