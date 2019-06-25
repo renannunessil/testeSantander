@@ -16,7 +16,13 @@ import br.com.renannunessil.testesantander.viewmodel.LoginViewModel
 import br.com.renannunessil.testesantander.viewmodel.factory.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
 import android.net.ConnectivityManager
+import android.util.Patterns
+import br.com.concrete.canarinho.validator.Validador
 import br.com.renannunessil.testesantander.R
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import java.util.regex.Pattern.matches
+import javax.xml.validation.Validator
 
 
 class LoginActivity : AppCompatActivity() {
@@ -91,13 +97,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun getLoginRequest(): LoginRequest {
-        val user = if (et_login_username.text.toString().isNotEmpty()) {
+        val user = if (validateEmail(et_login_username.text.toString())) {
             et_login_username.text.toString()
         } else {
             ""
         }
 
-        val password = if (et_login_password.text.toString().isNotEmpty()){
+        val password = if (validatePassWord(et_login_password.text.toString())){
             et_login_password.text.toString()
         } else {
             ""
@@ -109,5 +115,18 @@ class LoginActivity : AppCompatActivity() {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
+
+    private fun validatePassWord(password: String): Boolean {
+        val passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=*'])(?=\\S+$).{4,}$"
+
+        val pattern = Pattern.compile(passwordPattern)
+        val matcher = pattern.matcher(password)
+
+        return matcher.matches()
+    }
+
+    private fun validateEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }
